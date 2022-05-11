@@ -1,0 +1,13 @@
+.container {
+    height: 100%;
+    padding: 0 50px;
+    background: #fff;
+}
+.menu {
+    flex-grow: 1;
+    background: #fff !important;
+}
+.userMenu {
+    flex-shrink: 0;
+    width: auto;
+}
