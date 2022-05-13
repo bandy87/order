@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
-import styles from '../../../styles/ProductList.module.css'
-import ProductListContainer from './ProductListContainer'
+import React, { FC } from "react";
+import styles from "../../../styles/ProductList.module.css";
+import ProductListContainer from "./ProductListContainer";
 
 const MenuPage: FC = () => {
   return (
@@ -11,7 +11,7 @@ const MenuPage: FC = () => {
         <ProductListContainer />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MenuPage
+export default MenuPage;

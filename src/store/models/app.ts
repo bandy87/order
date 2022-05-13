@@ -1,21 +1,21 @@
-import { createModel } from '@rematch/core'
-import type { RootModel } from './models'
+import { createModel } from "@rematch/core";
+import type { RootModel } from "./models";
 
 export const app = createModel<RootModel>()({
   state: {
     cartIsOpen: false,
   },
   reducers: {
-    TOGGLE_CART (state, isOpen) {
+    TOGGLE_CART(state, isOpen: boolean) {
       return {
         ...state,
-        cartIsOpen: isOpen
-      }
-    }
+        cartIsOpen: isOpen,
+      };
+    },
   },
   effects: (dispatch) => ({
-    toggleCart (isOpen: boolean) {
-      dispatch.app.TOGGLE_CART(isOpen)
-    }
-  })
-})
+    toggleCart(isOpen: boolean) {
+      dispatch.app.TOGGLE_CART(isOpen);
+    },
+  }),
+});

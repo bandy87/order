@@ -1,27 +1,34 @@
-import React, { FC } from 'react'
-import { Modal } from 'antd'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState, Dispatch } from '../../../store/store'
-import { AuthLoginForm } from './AuthLoginForm'
+import { FC } from "react";
+import { Modal } from "antd";
+import { useSelector, connect } from "react-redux";
+import { RootState, Dispatch } from "../../../store/store";
+import { AuthLoginForm } from "./AuthLoginForm";
 
-const AuthModal: FC = () => {
-  const authModalIsOpen = useSelector((state: RootState) => state.auth.authModalIsOpen)
-  const dispatch = useDispatch<Dispatch>()
+const mapDispatch = (dispatch: Dispatch) => ({
+  closeModal: () => {
+    dispatch.auth.toggleModal(false);
+  },
+});
 
-  const closeModal = () => {
-    dispatch.auth.toggleModal(false)
-  }
+type DispatchProps = ReturnType<typeof mapDispatch>;
+type Props = DispatchProps;
+
+const AuthModal: FC<Props> = ({ closeModal }) => {
+  const authModalIsOpen = useSelector(
+    (state: RootState) => state.auth.authModalIsOpen
+  );
 
   return (
     <Modal
       visible={authModalIsOpen}
       title="Login"
-      onCancel={() => closeModal()}
+      onCancel={closeModal}
       footer={null}
     >
       <AuthLoginForm onLoggedIn={closeModal} />
     </Modal>
-  )
-}
+  );
+};
 
-export default AuthModal
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+export default connect(undefined, mapDispatch)(AuthModal);

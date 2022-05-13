@@ -1,36 +1,44 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import './index.css'
-import App from './App'
-import { Provider } from 'react-redux'
-import { store } from './store/store'
-import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from '@apollo/client'
-import { onError, ErrorResponse } from '@apollo/client/link/error'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
+import App from "./App";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+  from,
+} from "@apollo/client";
+import { onError, ErrorResponse } from "@apollo/client/link/error";
 
-const errorLink = onError(({ graphQLErrors, networkError }: ErrorResponse) => {
-  if (graphQLErrors) {
-    graphQLErrors.map(({ message, locations, path}) => {
-      alert(`Graph Error: ${message} - ${locations} - ${path}`)
-    })
+const errorLink = onError(({ graphQLErrors }: ErrorResponse) => {
+  if (graphQLErrors !== undefined) {
+    graphQLErrors.map(({ message, locations, path }) => {
+      console.error(
+        `Graph Error: ${message} - ${String(locations)} - ${String(path)}`
+      );
+    });
   }
-})
+});
 
 const link = from([
   errorLink,
   new HttpLink({
-    uri: 'http://localhost:5000/graphql'
-  })
-])
+    uri: "http://localhost:5000/graphql",
+  }),
+]);
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: link
-})
+  link: link,
+});
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-)
+  document.getElementById("root") as HTMLElement
+);
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
@@ -41,8 +49,4 @@ root.render(
       </Provider>
     </ApolloProvider>
   </React.StrictMode>
-)
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+);
