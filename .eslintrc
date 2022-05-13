@@ -1,0 +1,73 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "extends": [
+        // https://typescript-eslint.io/docs/getting-started/linting/linting
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+
+        // https://github.com/yannickcr/eslint-plugin-react#configuration
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+
+        // https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks#installation
+        "plugin:react-hooks/recommended",
+
+        // https://github.com/prettier/eslint-plugin-prettier#recommended-configuration
+        "plugin:prettier/recommended"
+    ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "rules": {
+        "eqeqeq": "error",
+        "@typescript-eslint/no-explicit-any": [
+            "error"
+        ],
+        // "@typescript-eslint/explicit-function-return-type": [
+        //     "error"
+        // ]
+        "react/jsx-no-bind": "error"
+        // "react-native/no-color-literals": 0
+    },
+    "overrides": [
+        {
+            "files": [
+                "*.tsx",
+                "*.ts"
+            ],
+            "extends": [
+                "plugin:@typescript-eslint/recommended-requiring-type-checking"
+            ],
+            "parserOptions": {
+                "project": "./tsconfig.json"
+            },
+            "rules": {
+                // this rule only works when parserOptions.project is defined, because it requires type info
+                // https://stackoverflow.com/questions/58510287/parseroptions-project-has-been-set-for-typescript-eslint-parser
+                "@typescript-eslint/strict-boolean-expressions": [
+                    "error",
+                    {
+                        "allowString": false,
+                        "allowNumber": false,
+                        "allowNullableObject": false
+                    }
+                ]
+            }
+        },
+        {
+            "files": [
+                "*.graphql"
+            ],
+            "parser": "@graphql-eslint/eslint-plugin",
+            "plugins": [
+                "@graphql-eslint"
+            ]
+        }
+    ]
+}
