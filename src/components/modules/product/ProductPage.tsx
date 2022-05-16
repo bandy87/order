@@ -19,7 +19,7 @@ const ProductPage: FC = () => {
   >(GET_PRODUCT, {
     variables: { id: Number(id) },
   });
-  const [productDetails, setProductDetails] = useState({});
+  const [productDetails, setProductDetails] = useState<Product>();
 
   useEffect(() => {
     if (data === undefined) return;

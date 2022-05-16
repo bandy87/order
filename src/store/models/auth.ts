@@ -10,17 +10,11 @@ export const auth = createModel<RootModel>()({
   },
   reducers: {
     TOGGLE_MODAL(state, isOpen: boolean) {
-      return {
-        ...state,
-        authModalIsOpen: isOpen,
-      };
+      state.authModalIsOpen = isOpen;
     },
     AUTH_SET_USER(state, userData: UserData | null) {
-      return {
-        ...state,
-        isLoggedIn: !(userData === null),
-        userData: userData,
-      };
+      state.isLoggedIn = !(userData === null);
+      state.userData = userData;
     },
   },
   effects: (dispatch) => ({

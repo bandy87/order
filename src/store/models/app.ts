@@ -7,10 +7,7 @@ export const app = createModel<RootModel>()({
   },
   reducers: {
     TOGGLE_CART(state, isOpen: boolean) {
-      return {
-        ...state,
-        cartIsOpen: isOpen,
-      };
+      state.cartIsOpen = isOpen;
     },
   },
   effects: (dispatch) => ({

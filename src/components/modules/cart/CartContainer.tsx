@@ -1,20 +1,17 @@
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { Drawer, Row, Col, Space, Divider } from "antd";
-import { useSelector, connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../store/store";
 import { CartProduct } from "../../../schema/app/entity";
 
-const mapDispatch = (dispatch: Dispatch) => ({
-  closeCart: () => {
-    dispatch.app.toggleCart(false);
-  },
-});
-
-type CartContainerProps = ReturnType<typeof mapDispatch>;
-
-const CartContainer: FC<CartContainerProps> = ({ closeCart }) => {
+const CartContainer: FC = () => {
   const cartIsOpen = useSelector((state: RootState) => state.app.cartIsOpen);
   const products = useSelector((state: RootState) => state.cart.products);
+  const dispatch = useDispatch<Dispatch>();
+
+  const closeCart = useCallback(() => {
+    dispatch.app.toggleCart(false);
+  }, [dispatch]);
 
   return (
     <Drawer
@@ -47,5 +44,4 @@ const CartContainer: FC<CartContainerProps> = ({ closeCart }) => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-export default connect(null, mapDispatch)(CartContainer);
+export default CartContainer;

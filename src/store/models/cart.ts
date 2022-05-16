@@ -13,21 +13,22 @@ export const cart = createModel<RootModel>()({
   },
   reducers: {
     CART_ADD_ITEM(state, products: CartProduct[]) {
-      return {
-        ...state,
-        products: products,
-      };
+      state.products = products;
     },
   },
   effects: (dispatch) => ({
     addItem({ product, quantity }: AddItemEffectProps, rootState) {
-      let products: CartProduct[] = rootState.cart.products.slice();
+      const cartProducts: CartProduct[] = rootState.cart.products;
       let addProduct = true;
-      products.map((item: CartProduct) => {
+      let products = cartProducts.map((item: CartProduct) => {
         if (product.id === item.id) {
-          item.quantity += quantity;
           addProduct = false;
+          return {
+            ...item,
+            quantity: item.quantity + quantity,
+          };
         }
+        return item;
       });
       if (addProduct) {
         products = [...products, { ...product, quantity }];

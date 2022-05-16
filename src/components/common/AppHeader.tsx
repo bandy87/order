@@ -1,44 +1,38 @@
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { Layout, Button, Dropdown, Menu, Space, Badge } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./AppHeader.module.css";
+
 import {
   UserOutlined,
   ShoppingCartOutlined,
   LoginOutlined,
 } from "@ant-design/icons";
 import { Dispatch, RootState } from "../../store/store";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const { Header } = Layout;
 
-const mapState = (state: RootState) => ({
-  isLoggedIn: state.auth.isLoggedIn,
-});
-
-const mapDispatch = (dispatch: Dispatch) => ({
-  showLoginModal: () => dispatch.auth.toggleModal(true),
-  showCart: () => dispatch.app.toggleCart(true),
-  logout: () => dispatch.auth.resetUser(),
-});
-
-type StateProps = ReturnType<typeof mapState>;
-type DispatchProps = ReturnType<typeof mapDispatch>;
-type Props = DispatchProps & StateProps;
-
-const AppHeader: FC<Props> = ({
-  showLoginModal,
-  showCart,
-  logout,
-  isLoggedIn,
-}) => {
+const AppHeader: FC = () => {
   const location = useLocation();
   // TODO: Handle active links
   const activeKey = location.pathname;
-  // const isLoggedIn = useSelector((state: RootState) => state.auth?.isLoggedIn);
+  const isLoggedIn = useSelector((state: RootState) => state.auth?.isLoggedIn);
   const user = useSelector((state: RootState) => state.auth.userData);
-
   const dispatch = useDispatch<Dispatch>();
+
+  const showLoginModal = useCallback(() => {
+    dispatch.auth.toggleModal(true);
+  }, [dispatch]);
+
+  const showCart = useCallback(() => {
+    dispatch.app.toggleCart(true);
+  }, [dispatch]);
+
+  const logout = useCallback(() => {
+    dispatch.auth.resetUser();
+  }, [dispatch]);
+
   const dropdownItems = (
     <Menu
       items={[
@@ -49,9 +43,7 @@ const AppHeader: FC<Props> = ({
         {
           label: "Logout",
           key: "logout",
-          onClick: () => {
-            logout();
-          },
+          onClick: logout,
         },
       ]}
     />
@@ -115,4 +107,4 @@ const AppHeader: FC<Props> = ({
   );
 };
 
-export default connect(mapState, mapDispatch)(AppHeader);
+export default AppHeader;

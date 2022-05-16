@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import "./App.css";
 import "antd/dist/antd.css";
 import "antd-css-utilities/utility.min.css";
@@ -10,10 +10,20 @@ import MenuPage from "./components/modules/menu/MenuPage";
 import ProductPage from "./components/modules/product/ProductPage";
 import AuthModal from "./components/modules/auth/AuthModal";
 import CartContainer from "./components/modules/cart/CartContainer";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "./store/store";
 
 const { Content } = Layout;
 
 function App() {
+  const dispatch = useDispatch<Dispatch>();
+
+  // useEffect(() => {
+  //   const userId = window.localStorage.getItem("userId");
+  //   if (userId !== undefined) {
+  //     dispatch.auth.toggleModal
+  //   }
+  // }, []);
   return (
     <>
       <Layout className="layout">

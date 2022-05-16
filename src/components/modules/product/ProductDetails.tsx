@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { Row, Col } from "antd";
 import { Product } from "../../../schema/app/entity";
 import { Input, InputNumber, Button } from "antd";
@@ -14,12 +14,12 @@ const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch<Dispatch>();
 
-  const addToCart = () => {
+  const addToCart = useCallback(() => {
     dispatch.cart.addItem({
       product,
       quantity,
     });
-  };
+  }, [dispatch, product, quantity]);
 
   return (
     <Row>

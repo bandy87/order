@@ -1,22 +1,17 @@
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { Modal } from "antd";
-import { useSelector, connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState, Dispatch } from "../../../store/store";
 import { AuthLoginForm } from "./AuthLoginForm";
 
-const mapDispatch = (dispatch: Dispatch) => ({
-  closeModal: () => {
-    dispatch.auth.toggleModal(false);
-  },
-});
-
-type DispatchProps = ReturnType<typeof mapDispatch>;
-type Props = DispatchProps;
-
-const AuthModal: FC<Props> = ({ closeModal }) => {
+const AuthModal: FC = () => {
   const authModalIsOpen = useSelector(
     (state: RootState) => state.auth.authModalIsOpen
   );
+  const dispatch = useDispatch<Dispatch>();
+  const closeModal = useCallback(() => {
+    dispatch.auth.toggleModal(false);
+  }, [dispatch]);
 
   return (
     <Modal
@@ -31,4 +26,4 @@ const AuthModal: FC<Props> = ({ closeModal }) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-export default connect(undefined, mapDispatch)(AuthModal);
+export default AuthModal;

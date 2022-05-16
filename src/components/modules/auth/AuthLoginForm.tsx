@@ -1,6 +1,6 @@
-import { FC, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { Form, Input, Button } from "antd";
-import useLogin from "../../../hooks/useLogin";
+import useLogin from "../../../hooks/auth/useLogin";
 
 type LoginFormFields = {
   email: string;
@@ -18,6 +18,15 @@ export const AuthLoginForm: FC<{ onLoggedIn: CallableFunction }> = ({
     console.error(error);
   }, [error]);
 
+  const login = useCallback(
+    (fields: LoginFormFields) => {
+      void (async (fields: LoginFormFields) => {
+        await doLogin(fields);
+      })(fields);
+    },
+    [doLogin]
+  );
+
   useEffect(() => {
     if (isSuccess) {
       onLoggedIn();
@@ -30,7 +39,7 @@ export const AuthLoginForm: FC<{ onLoggedIn: CallableFunction }> = ({
       name="basic"
       labelCol={{ span: 6 }}
       wrapperCol={{ span: 16 }}
-      onFinish={doLogin}
+      onFinish={login}
       autoComplete="off"
     >
       <Form.Item
